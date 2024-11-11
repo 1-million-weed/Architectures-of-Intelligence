@@ -1,0 +1,23 @@
+{
+	"nodes":[
+		{"id":"07eb26f7a844d812","type":"text","text":"Control goal","x":-90,"y":20,"width":165,"height":60},
+		{"id":"13907d275643fd23","type":"text","text":"[[Lecture 1#Procedural Memory]]","x":-117,"y":-100,"width":220,"height":60},
+		{"id":"e14c28f09ec3e751","type":"text","text":"Working memory","x":105,"y":20,"width":195,"height":60},
+		{"id":"99c0567be56f5190","type":"text","text":"declarative memory","x":-322,"y":20,"width":205,"height":60},
+		{"id":"53bd83e083fb303c","type":"text","text":"visual perception","x":75,"y":-210,"width":190,"height":60},
+		{"id":"1a8cf9f46d3fecc1","type":"text","text":"Manual contrrol \n\n\n\n \n ","x":-270,"y":-210,"width":180,"height":60},
+		{"id":"c4f89d4fe6e65113","x":-132,"y":-400,"width":252,"height":60,"type":"text","text":">All of these are chunks"}
+	],
+	"edges":[
+		{"id":"87b988d2f5d0a4af","fromNode":"e14c28f09ec3e751","fromSide":"top","toNode":"13907d275643fd23","toSide":"right"},
+		{"id":"99943c1068f4232c","fromNode":"13907d275643fd23","fromSide":"right","toNode":"e14c28f09ec3e751","toSide":"top"},
+		{"id":"727766ac0f5dc276","fromNode":"07eb26f7a844d812","fromSide":"top","toNode":"13907d275643fd23","toSide":"bottom"},
+		{"id":"ae7c5e92c6b11878","fromNode":"13907d275643fd23","fromSide":"bottom","toNode":"07eb26f7a844d812","toSide":"top"},
+		{"id":"bc92a7077275912e","fromNode":"99c0567be56f5190","fromSide":"top","toNode":"13907d275643fd23","toSide":"left"},
+		{"id":"7df510fd2731c77a","fromNode":"13907d275643fd23","fromSide":"left","toNode":"99c0567be56f5190","toSide":"top"},
+		{"id":"2801693490fc807b","fromNode":"1a8cf9f46d3fecc1","fromSide":"right","toNode":"13907d275643fd23","toSide":"top"},
+		{"id":"9711343e4f422ec9","fromNode":"53bd83e083fb303c","fromSide":"left","toNode":"13907d275643fd23","toSide":"top"},
+		{"id":"67b385e9e93b042f","fromNode":"13907d275643fd23","fromSide":"top","toNode":"1a8cf9f46d3fecc1","toSide":"right"},
+		{"id":"f586748d80921a5b","fromNode":"13907d275643fd23","fromSide":"top","toNode":"53bd83e083fb303c","toSide":"left"}
+	]
+}
