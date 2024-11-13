@@ -1,3 +1,9 @@
+---
+tags:
+  - old
+---
+
+
 # My Obsidian Vault for Artificial Intelligence Studies
 
 Welcome to my Obsidian vault! This repository serves as a central hub for my notes, assignments, and general resources related to my studies in **Artificial Intelligence** at the University of Groningen (RUG).

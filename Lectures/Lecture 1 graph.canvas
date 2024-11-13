@@ -1,7 +1,7 @@
 {
 	"nodes":[
 		{"id":"07eb26f7a844d812","type":"text","text":"Control goal","x":-90,"y":20,"width":165,"height":60},
-		{"id":"13907d275643fd23","type":"text","text":"[[Lecture 1#Procedural Memory]]","x":-117,"y":-100,"width":220,"height":60},
+		{"id":"13907d275643fd23","type":"text","text":"[[1-million-weed-notes/Lectures/Lecture 1#Procedural Memory]]","x":-117,"y":-100,"width":220,"height":60},
 		{"id":"e14c28f09ec3e751","type":"text","text":"Working memory","x":105,"y":20,"width":195,"height":60},
 		{"id":"99c0567be56f5190","type":"text","text":"declarative memory","x":-322,"y":20,"width":205,"height":60},
 		{"id":"53bd83e083fb303c","type":"text","text":"visual perception","x":75,"y":-210,"width":190,"height":60},
