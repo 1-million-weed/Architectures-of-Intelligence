@@ -1,3 +1,10 @@
+---
+tags:
+  - Matthijs
+  - Marinus
+  - Lectures
+---
+
 # Course information
 ---
 ## Literature

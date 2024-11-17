@@ -1,3 +1,8 @@
+---
+tags:
+  - Assignments
+---
+
 - write a model of multi-col addition
 - repair broken additional model
 - explain your model and repairs
