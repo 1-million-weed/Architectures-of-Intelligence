@@ -11,7 +11,7 @@
 
 (add-dm
    ; this first section was for summing 27 and 64
-  (20add60 isa add num1 twenty num2 sixty sum eighty split yes)
+  (20add60 isa add num1 twenty num2 sixty sum eighty split yes) ;NOTETOSELF: the splits for tens summed should probably be set to no iso yes
   (7add4 isa add num1 seven num2 four sum eleven split no)
   (80add10 isa add num1 eighty num2 ten sum ninety split yes)
   (90add1 isa add num1 ninety num2 one sum ninety-one split yes)
@@ -21,12 +21,14 @@
   (1add0 isa add num1 one num2 zero sum one split no) ; the add 0 is a mistake in implementation {which i dont feel like fixing}
 
   ; this second section is to see if the code is usable for all addition {given the dm is provided}
-  (10add2 isa add num1 ten num2 two sum twelve split yes)
+  (20add3 isa add num1 twenty num2 three sum twenty-three split yes)
   (3add0 isa add num1 three num2 zero split no)
   (3add2 isa add num1 three num2 two sum five split no)
-  (10add5 isa add num1 ten num2 five sum fifteen split yes)
+  (20add10 isa add num1 twenty num2 ten sum thirty split yes)
+  (10add2 isa add num1 ten num2 two sum twelve split yes)
+  (30add5 isa add num1 thirty num2 five sum thirty-five split yes)
 
-  (initial-goal isa goal arg1 twelve arg2 three) ; arg1 and arg2 are the numbers to be summed, 10 < arg1 > arg2, 
+  (initial-goal isa goal arg1 twenty-three arg2 twelve) ; arg1 and arg2 are the numbers to be summed, arg1 > arg2 > 10, 
 )
 
 (P initialize-mc-add
