@@ -1,3 +1,8 @@
+---
+tags:
+  - Assignments
+---
+
 This is the original given faulty file. Look at [[Assignment 1]] for other versions.
 ```lisp
 
