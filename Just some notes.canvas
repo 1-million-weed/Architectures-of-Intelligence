@@ -1,0 +1,25 @@
+{
+	"nodes":[
+		{"id":"4ed239b551c7490d","type":"text","text":"`:attending` request","x":-260,"y":260,"width":205,"height":60},
+		{"id":"e3968ecf60c3f585","type":"text","text":"none","x":80,"y":260,"width":250,"height":60},
+		{"id":"aeb5b5b3394323e7","type":"text","text":"object-name","x":80,"y":160,"width":250,"height":60},
+		{"id":"5f68ad8beecaecd9","type":"text","text":"next","x":80,"y":360,"width":250,"height":60},
+		{"id":"47f5068c91c9ac35","type":"text","text":"screen-coordinates","x":80,"y":460,"width":250,"height":60},
+		{"id":"d7ac78d05a37c146","type":"text","text":"nil","x":80,"y":60,"width":250,"height":60},
+		{"id":"7ad0433f50832a68","x":25,"y":-600,"width":250,"height":60,"type":"text","text":"end-count"},
+		{"id":"be2e191c9de6d453","x":25,"y":-500,"width":250,"height":60,"type":"text","text":"find-next"},
+		{"id":"05b7c202704e2d0e","x":25,"y":-400,"width":250,"height":60,"type":"text","text":"no-next"},
+		{"id":"4df2c855bbcecb37","x":25,"y":-700,"width":250,"height":60,"type":"text","text":"start-count"},
+		{"id":"7403d18d4edff269","x":95,"y":-800,"width":110,"height":50,"type":"text","text":"attend"},
+		{"id":"df170ed7fac51f51","x":88,"y":-900,"width":124,"height":50,"type":"text","text":"find-first"},
+		{"id":"c809aac572bdfd67","x":25,"y":-300,"width":250,"height":60,"type":"text","text":"start-repond"},
+		{"id":"a1512680937de9e7","x":25,"y":-200,"width":250,"height":60,"type":"text","text":"end-respond"}
+	],
+	"edges":[
+		{"id":"ae286437f926db54","fromNode":"4ed239b551c7490d","fromSide":"right","toNode":"d7ac78d05a37c146","toSide":"left"},
+		{"id":"e86c0d09516f96ad","fromNode":"4ed239b551c7490d","fromSide":"right","toNode":"aeb5b5b3394323e7","toSide":"left"},
+		{"id":"298e057058994424","fromNode":"4ed239b551c7490d","fromSide":"right","toNode":"e3968ecf60c3f585","toSide":"left"},
+		{"id":"ab28c504197f155f","fromNode":"4ed239b551c7490d","fromSide":"right","toNode":"5f68ad8beecaecd9","toSide":"left"},
+		{"id":"f5bb13f6aa3dfb7b","fromNode":"4ed239b551c7490d","fromSide":"right","toNode":"47f5068c91c9ac35","toSide":"left"}
+	]
+}

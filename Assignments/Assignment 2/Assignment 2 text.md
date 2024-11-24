@@ -4,15 +4,14 @@ tags:
   - Assignments
   - Marinus
 ---
----
 Please note, this is taken directly out of the reader.
----
+
 ---
 # ACT-R Subitizing Task
 
 ## 3.8.3 The Assignment
 
-Your task is to write a model for the subitizing task that always responds correctly by speaking the number of items on the display and also fits the human data well.
+Your task is to write  a model for the subitizing task that always responds correctly by speaking the number of items on the display and also fits the human data well.
 
 ### Results from My ACT-R Model:
 - **Correlation**: 0.980  
