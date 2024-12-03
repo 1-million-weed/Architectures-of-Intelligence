@@ -20,7 +20,7 @@ Your task is to write a model for the [[subitizing]] task that always responds c
 
 ---
 ## Concepts:
-- [[Subitizing]]
+- [[subitizing]]
 - Chunks
 	- A chunk can be defined in the dm as (example). There is no need for (example isa chunk)
 
