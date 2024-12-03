@@ -1,12 +1,7 @@
----
-tags:
-  - old
----
 
+# A collaborative Obsidian Vault for Artificial Intelligence Studies
 
-# My Obsidian Vault for Artificial Intelligence Studies
-
-Welcome to my Obsidian vault! This repository serves as a central hub for my notes, assignments, and general resources related to my studies in **Artificial Intelligence** at the University of Groningen (RUG).
+Welcome to our Obsidian vault! This repository serves as a central hub for notes, assignments, and general resources related to the study **Artificial Intelligence** at the University of Groningen (RUG).
 
 ## Table of Contents
 
@@ -19,7 +14,7 @@ Welcome to my Obsidian vault! This repository serves as a central hub for my not
 
 ## About
 
-This vault is designed to help me organize lecture notes, assignments, and reference material for my AI studies. I use Obsidian to structure and interlink ideas, which helps me reinforce my learning. The vault is hosted here on GitHub for easy access, version control, and sharing.
+This vault is designed to help organize lecture notes, assignments, and reference material for our AI studies. We use Obsidian to structure and interlink ideas, which helps  reinforce learning. The vault is hosted here on GitHub for easy access, version control, and sharing.
 
 ## Structure
 
@@ -40,7 +35,7 @@ The vault is structured into several main categories:
 
 ### Current Focus
 
-As a second-year student, I am working on deepening my understanding in the following areas and will be updating this vault accordingly.
+We are working on deepening our understanding of the course material and will be updating this vault accordingly.
 
 ## Usage
 
@@ -52,7 +47,7 @@ To use this vault:
 
 ## Contributing
 
-While this vault is primarily for my own use, contributions or suggestions are welcome! Please feel free to open issues or make pull requests if you have relevant resources, corrections, or enhancements.
+While this vault is primarily for our personal use, contributions or suggestions are welcome! Please feel free to open issues or make pull requests if you have relevant resources, corrections, or enhancements.
 
 ## License
 
