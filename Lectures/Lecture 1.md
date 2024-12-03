@@ -10,6 +10,7 @@ tags:
 ## Literature
 - act r book: How can the human mind occur in the physical universe
 - nengo book: How to build a brain
+- 
 ## Points
 - 60% assignments (7)
 - 40% exam
