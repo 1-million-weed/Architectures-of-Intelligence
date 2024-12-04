@@ -45,3 +45,31 @@ From this we construed the following list:
 		- Use of neural networks or neural representations
 		- Be able to predict brain activation
 
+Balancing the two aspects:
+1. Functionality
+2. Theory
+
+So, as an answer to problem 1 : **Cognitive Models**
+
+### Connectionism - connecting theory to brain
+1. Nengo: low level architecture - start with neurons
+2. Act-r: high level architecture - Model regions, measure activity
+- Combine the two:
+**Neural networks**: implementation of high level architecture
+
+## Problem II: Isolated phenomena: 
+no overall theory
+
+Research is aimed at individual phenomena and not at the overall theory underlying the human brain.
+phenomena like:
+- Visual search
+- Working Memory size
+- Visual processing speed
+- Switch tasks
+- Timing
+- etc.
+### Newell’s solution:
+1. Study large, real-life tasks, and understand all aspects of that task (example: chess, driving)
+2. Combine separate models in a cognitive architecture
+
+#_FirstPass start from slide 30/62
