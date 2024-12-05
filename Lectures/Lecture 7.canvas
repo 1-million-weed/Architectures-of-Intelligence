@@ -1,18 +1,18 @@
 {
 	"nodes":[
 		{"id":"379c53d274466504","type":"text","text":"","x":-469,"y":-40,"width":50,"height":60},
-		{"id":"862a24fbc711286d","x":-469,"y":160,"width":250,"height":176,"type":"text","text":"If noise is really low, then we wont select A at all. \nThe higher up we go with the noise the more chance we have that we will select A"},
-		{"id":"7932a58450455dda","x":-187,"y":175,"width":400,"height":147,"type":"file","file":"Images/Pasted image 20241202093537.png"},
-		{"id":"da2293e0cba61949","x":-302,"y":-136,"width":115,"height":60,"type":"text","text":"Press A"},
-		{"id":"47504246c56f919d","x":-302,"y":20,"width":114,"height":60,"type":"text","text":"Press B"},
-		{"id":"66a885c0cc93314d","x":-155,"y":20,"width":167,"height":60,"type":"text","text":"70%: Reward 1\n30%: Reward 0"},
-		{"id":"69c5b52365dc0fb3","x":-155,"y":-136,"width":167,"height":60,"type":"text","text":"30%: Reward 1\n70%: Reward 0"},
-		{"id":"2ff3937d271a46d3","x":-469,"y":621,"width":250,"height":86,"type":"text","text":"What happens when you increase the reward to 10 cents?"},
-		{"id":"89a63ff31c890a9d","x":-50,"y":520,"width":400,"height":287,"type":"file","file":"Images/Pasted image 20241202093646.png"},
-		{"id":"98c36d0ca5e5fddf","x":150,"y":940,"width":400,"height":268,"type":"file","file":"Images/Pasted image 20241202093749.png"},
-		{"id":"94f270dfabe3ead3","x":-200,"y":1044,"width":250,"height":60,"type":"text","text":"How about if we vary the reward??"},
-		{"id":"b05827a4d5747e71","x":-450,"y":1400,"width":250,"height":60,"type":"text","text":"How do we learn utility over time?"},
-		{"id":"ac50038c5636ec4c","x":-75,"y":1400,"width":250,"height":60,"type":"text","text":"Has evolved into reinforcement learning"}
+		{"id":"862a24fbc711286d","type":"text","text":"If noise is really low, then we wont select A at all. \nThe higher up we go with the noise the more chance we have that we will select A","x":-469,"y":160,"width":250,"height":176},
+		{"id":"7932a58450455dda","type":"file","file":"Images/Pasted image 20241202093537.png","x":-187,"y":175,"width":400,"height":147},
+		{"id":"da2293e0cba61949","type":"text","text":"Press A","x":-302,"y":-136,"width":115,"height":60},
+		{"id":"47504246c56f919d","type":"text","text":"Press B","x":-302,"y":20,"width":114,"height":60},
+		{"id":"66a885c0cc93314d","type":"text","text":"70%: Reward 1\n30%: Reward 0","x":-155,"y":20,"width":167,"height":60},
+		{"id":"69c5b52365dc0fb3","type":"text","text":"30%: Reward 1\n70%: Reward 0","x":-155,"y":-136,"width":167,"height":60},
+		{"id":"2ff3937d271a46d3","type":"text","text":"What happens when you increase the reward to 10 cents?","x":-469,"y":621,"width":250,"height":86},
+		{"id":"89a63ff31c890a9d","type":"file","file":"Images/Pasted image 20241202093646.png","x":-50,"y":520,"width":400,"height":287},
+		{"id":"98c36d0ca5e5fddf","type":"file","file":"Images/Pasted image 20241202093749.png","x":150,"y":940,"width":400,"height":268},
+		{"id":"94f270dfabe3ead3","type":"text","text":"How about if we vary the reward??","x":-200,"y":1044,"width":250,"height":60},
+		{"id":"b05827a4d5747e71","type":"text","text":"How do we learn utility over time?","x":-450,"y":1400,"width":250,"height":60},
+		{"id":"ac50038c5636ec4c","type":"text","text":"Has evolved into reinforcement learning","x":-75,"y":1400,"width":250,"height":60}
 	],
 	"edges":[
 		{"id":"20c76cb8ccc37c85","fromNode":"379c53d274466504","fromSide":"right","toNode":"da2293e0cba61949","toSide":"left"},
