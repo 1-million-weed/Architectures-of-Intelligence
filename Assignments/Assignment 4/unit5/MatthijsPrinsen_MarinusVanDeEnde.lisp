@@ -126,6 +126,12 @@
       C2 =c2
       TOT =MY
      @retrieval>) ;; WHAT IS THE @?
+     ;; The '@' is called the overwrite function (like in java @overwite)
+     ;; It has the production modify a chunk in a buffer. similar to the '=' operator
+     ;; With overwite only slots and values specified in the overwrite action will remain in the chunk
+     ;;   all other slot and values are erased.
+     ;; In this case:
+     ;;   The chunk in the buffer is NOT sent to declarive memory and instead is FORGOTTEN as if never there.
   
   ;; On a win, we save our action 'h' with the dealt cards and total
   (p my-results-should-hit
