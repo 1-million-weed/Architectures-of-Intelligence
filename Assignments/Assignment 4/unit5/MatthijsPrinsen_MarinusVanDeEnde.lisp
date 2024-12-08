@@ -18,6 +18,8 @@
 
 ;; ? #|Warning: Parameter :SIM-HOOK cannot take value "1hit-bj-number-sims" because it must be a function, string naming a command, or nil. |#
 
+;; ADD COMPOUND PRODUCTION THING
+
 (clear-all)
 
 (define-model 1-hit-model 
@@ -114,7 +116,7 @@
        state free
     ==>
      =goal>
-       state nil
+       state results ;; we want to review the results after completion
      +manual>
        cmd press-key
        key =act
@@ -123,7 +125,7 @@
       C1 =c1
       C2 =c2
       TOT =MY
-     @retrieval>)
+     @retrieval>) ;; WHAT IS THE @?
   
   ;; On a win, we save our action 'h' with the dealt cards and total
   (p my-results-should-hit
@@ -133,6 +135,7 @@
        mresult win
        MC1 =c1
        MC2 =c2
+      -MC3 nil
        mtot =my ;; DO WE ALSO CHECK OPPONENTS CARDS HERE? IF WE WANT TO LOOK AT THEIR TOTAL, WE'D HAVE TO SAVE OUR GAMES DIFFERNTLY
      ?imaginal>
        state free
@@ -147,7 +150,7 @@
        action "h")
        
   ;; hitting is a highly preferred action with a utility of 10
-  (spp results-should-hit :u 10)
+  (spp results-should-hit :u 10) ;; THIS IS REDUNDANT AS OF NOW. DO WE USE THIS IDEA? WE CAN HAVE A HIT BE MORE COMMON THAN A STAY
 
   ;; we encode the opponents results too,
   ;; we can base our next action of this  
@@ -186,7 +189,7 @@
     ==>
      !output! (I WIN)
      =goal>
-       state nil
+       state results
      +imaginal>
        c1 =C1
        c2 =c2
