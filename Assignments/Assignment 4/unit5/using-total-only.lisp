@@ -69,16 +69,16 @@
     =goal>
       isa game-state ;; OPTIONAL; WE INCLUDE THE OPPONENTS FIRST CARD FOR FURTHER SPREADING ACTIVATION
       state start
-      MC1 =c1 ;;WE WANT TO FIND AN EXACT MATCH, BUT SHOULD ALLOW FOR SPREADING ACTIVATION
-      MC2 =c2 ;;ARE WE ALREADY USING THAT, OR DO WE STILL HAVE TO IMPLEMENT IT? I THINK ITS ALREADY ON (:mp)
-      mtot =my ;; OPTIONAL: WE ALSO ADD THE OPPONENTS CARDS (FOR E.G. IF THEY HAVE A BAD HAND, WE MIGHT BE INCLINED TO STAY)
+      ;; MC1 =c1 ;;WE WANT TO FIND AN EXACT MATCH, BUT SHOULD ALLOW FOR SPREADING ACTIVATION
+      ;; MC2 =c2 ;;ARE WE ALREADY USING THAT, OR DO WE STILL HAVE TO IMPLEMENT IT? I THINK ITS ALREADY ON (:mp)
+      mtot =my 
     ==>
       =goal>
         state retrieving
       +retrieval>
         isa learned-info
-        C1 =c1
-        C2 =c2
+        ;; C1 =c1
+        ;; C2 =c2 going to try only use the total value
         tot =my
       - action nil ;; we want to find a previous action, the action slot should not be empty
     )
@@ -90,8 +90,8 @@
     =goal>
       isa game-state
       state retrieving
-      MC1 =c1 
-      MC2 =c2
+      ;; MC1 =c1 
+      ;; MC2 =c2 ;; Using only the total
       MTOT =my
     ?retrieval>
       buffer  failure
@@ -105,8 +105,8 @@
         key "h"
       +imaginal>
         action "h"
-        c1 =c1
-        c2 =c2
+        ;; c1 =c1
+        ;; c2 =c2 ;; Using only the total
         tot =my
     ) 
 
@@ -114,27 +114,27 @@
   ;; we execute that strategy
   (p remember-game
     =goal>
-      isa game-state
-      state retrieving
-      mc1 =c1
-      mc2 =c2
-      MTOT =MY
+      isa     game-state
+      state   retrieving
+      ;; mc1  =c1
+      ;; mc2  =c2
+      mtot    =mytotal
     =retrieval>
-      isa learned-info
-      action =act
+      isa     learned-info
+      action  =act
     ?manual>
-      state free
+      state   free
     ==>
       =goal>
         state results ;; we want to review the results after completion
       +manual>
-        cmd press-key
-        key =act
+        cmd   press-key
+        key   =act
       +imaginal>
         action =act
-        C1 =c1
-        C2 =c2
-        TOT =MY
+        ;; C1 =c1
+        ;; C2 =c2 Using only the total
+        tot   =mytotal
     @retrieval>) ;; WHAT IS THE @?
     ;; The '@' is called the overwrite function (like in java @overwite)
     ;; It has the production modify a chunk in a buffer. similar to the '=' operator
@@ -145,103 +145,76 @@
     ;; NOTE: Used here to prevent strengthening the chunk more in the DM
     ;; WHY? WE DONT NEED TO RESTRENGTHEN THAT CHUNK AFTER RECALLING IT. DONT KNOW FOR SURE IF ITS THE RIGHT MOVE HERE.
 
+;;-------------------------------------------------------------
+;; MATTHIJS I AM NOT DONE YET. I WILL LET YOU KNOW ONCE I AM
+;;-------------------------------------------------------------
   ;; On a win, we save our action 'h' with the dealt cards and total
-  (p my-results-should-hit
+  (p results-should-hit
     =goal>
-      isa game-state
-      state results
+      isa     game-state
+      state   results
       mresult win
-      MC1 =c1
-      MC2 =c2
-      -MC3 nil
-      mtot =my ;; DO WE ALSO CHECK OPPONENTS CARDS HERE? IF WE WANT TO LOOK AT THEIR TOTAL, WE'D HAVE TO SAVE OUR GAMES DIFFERNTLY
+      mtot    =my
     ?imaginal>
-      state free
+      state   free
     ==>
-      !output! (I WIN)
+      !output! (I =outcome)
       =goal>
-        state results
+        state nil
       +imaginal>
-        C1 =c1
-        C2 =c2
-        tot =my
-        action "h")
+        tot   =my
+        action "h"
+    )
+
+  (p results-should-stay
+    =goal>
+      isa     game-state
+      state   results
+      mresult =outcome
+      tot     =mytot
+    ?imaginal>
+      state   free
+    ==>
+      !output! (I =outcome)
+      =goal>
+        state nil
+      +imaginal>
+        tot   =mytot
+        action "s"
+    )
 
   ;; hitting is a highly preferred action with a utility of 10
-  (spp results-should-hit :u 10) ;; THIS IS REDUNDANT AS OF NOW. DO WE USE THIS IDEA? WE CAN HAVE A HIT BE MORE COMMON THAN A STAY
-
-  ;; we encode the opponents results too,
-  ;; we can base our next action of this  
-  (p opp-results-should-hit
-    =goal>
-      isa game-state
-      state results
-      oresult win
-      oC1 =c1
-      oc2 =c2
-      -oc3 nil ;; the opponent hit
-      otot =tot
-    ?imaginal>
-      state free
-    ==>
-      =goal> ;; IS THIS =GOAL> OPTIONAL?
-        state results
-      +imaginal> ;; we save the opponents actions if they win
-        c1 =C1
-        c2 =c2 
-        tot =tot
-        action "h")
+  ;; (spp results-should-hit :u 10) 
 
   ;; when winning, we encode our action with the cards into the dm via imaginal buffer clearing
   (p my-results-should-stay
     =goal>
-      isa game-state
-      state results
+      isa     game-state
+      state   results
       mresult win
-      MC1 =c1
-      MC2 =c2
-      MC3 nil ;;here we make sure that we stayed - then there should not be a c3 drawn
-      mtot =tot
+      MC1     =c1
+      MC2     =c2
+      MC3     nil ;;here we make sure that we stayed - then there should not be a c3 drawn
+      mtot    =tot
     ?imaginal>
-      state free
+      state   free
     ==>
       !output! (I WIN)
       =goal>
         state results
       +imaginal>
-        c1 =C1
-        c2 =c2
-        tot =tot
-        action "s") 
-
-  ;; we encode the opponents actions as our own
-  ;; this way we get twice the learned info per game
-  (p opp-results-should-stay
-    =goal>
-      isa game-state
-      state results
-      oresult win
-      oC1 =c1
-      oc2 =c2
-      oc3 nil ;; again we ensure the player stayed by c3
-      otot =tot
-    ?imaginal>
-      state free
-    ==>
-      =goal>
-        state results
-      +imaginal>
-        C1 =c1
-        c2 =c2
-        tot =tot
-        action "s") 
+        c1    =C1
+        c2    =c2
+        tot   =tot
+        action "s"
+    ) 
 
   ;; clearing the imaginal chunk to send the info into the dm
   (p clear-new-imaginal-chunk
     ?imaginal>
-      state free
-      buffer full
+      state   free
+      buffer  full
     ==>
-      -imaginal>)
-
+      -imaginal>
+    )
 )
