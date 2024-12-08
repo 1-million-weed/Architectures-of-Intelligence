@@ -49,7 +49,7 @@
   ;; no need for distinction where the learned info came from
   (chunk-type learned-info c1 c2 tot action)
   ;; TODO: MAYBE WE COULD JUST USE THE TOTAL?
-  ;; IM MAKING A DIFFERENT FILE FOR THIS /using-total-only.lisp
+  ;; IM MAKING A DIFFERENT FILE FOR THIS marinus-model/using-total-only.lisp
 
   ;; Declare the slots used for the goal buffer since it is
   ;; not set in the model defintion or by the productions.
