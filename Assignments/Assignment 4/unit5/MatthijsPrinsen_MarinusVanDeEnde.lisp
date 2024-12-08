@@ -1,14 +1,22 @@
 ;; Matthijs Prinsen & Marinus v/d Ende
 ;; Todo: 
-;; 1. read opponents cards and encode them
-;; 1a. read cards
-;; 1b. eval action opponent
-;; 1c. encode action + card opp.
-;; 2. improve rules 
+
+;; RESULTS STATE CURRENTLY RUNS ONE PRODUCTION, WE WANT TO RUN ALL THREE
+;; WE CAN MAKE THE RESULT STATE NOT UPDATE FROM THE PRODUCTIONS, BUT HAVE A NEW P UPDATE THE STATE WHEN THERE ARE NO MORE TASKS
+
+;; LOOK AT MRESULTS AND ORESULTS WHEN EVALUATING HIT OR STAY
+
 ;; 3. use spreading activation to allow for near misses
-;; 4. also save mc2 and oc2
+
 ;; 5. add 'fuck it' production to hit when unsure 
 ;; 6. add 'pussy out' production to hit when unsure 
+
+;; WE SHOULD INCLUDE BOTH CARDS AND RESULTS FOR BETTER PARTIAL MATCHING
+
+;; WHAT ABOUT A PRODUCTION THAT REPEATS THE CONCEPTS LEARNED UP TILL NOW
+;; A PERSON LERANING BLACKJACK WOULD CONTINUESLY REVIEW WHAT THEYVE LEARNED
+
+;; ? #|Warning: Parameter :SIM-HOOK cannot take value "1hit-bj-number-sims" because it must be a function, string naming a command, or nil. |#
 
 (clear-all)
 
@@ -27,7 +35,9 @@
   
   ;; This chunk-type should be modified to contain the information needed
   ;; for your model's learning strategy
-  (chunk-type learned-info mc1 mc2 oc1 oc2 action)
+  ;; DESIGN CHOICE: we want to save the oppopents action as our own, 
+  ;; no need for distinction where the learned info came from
+  (chunk-type learned-info c1 c2 tot action)
   
   ;; Declare the slots used for the goal buffer since it is
   ;; not set in the model defintion or by the productions.
@@ -49,22 +59,28 @@
        state start
        MC1 =c1 ;;WE WANT TO FIND AN EXACT MATCH, BUT SHOULD ALLOW FOR SPREADING ACTIVATION
        MC2 =c2 ;;ARE WE ALREADY USING THAT, OR DO WE STILL HAVE TO IMPLEMENT IT?
+       mtot =my ;; OPTIONAL: WE ALSO ADD THE OPPONENTS CARDS (FOR E.G. IF THEY HAVE A BAD HAND, WE MIGHT BE INCLINED TO STAY)
     ==>
      =goal>
        state retrieving
      +retrieval>
        isa learned-info
-       MC1 =c1
-       MC2 =c2
-     - action nil)
+       C1 =c1
+       C2 =c2
+       tot =my
+     - action nil ;; we want to find a previous action, the action slot should not be empty
+     )
 
-  ;; if there is no previous action we stay
+  ;; if there is no previous action we hit
+  ;; DESIGN CHOICE: here we want to hit a lot early, 
+  ;; which probably loses a few games at the start, but provides more info for later games
   (p cant-remember-game
      =goal>
        isa game-state
        state retrieving
        MC1  =c1 
        MC2  =c2
+       MTOT =my
      ?retrieval>
        buffer  failure
      ?manual>
@@ -74,12 +90,13 @@
        state nil
      +manual>
        cmd press-key
-       key "s"
+       key "h"
      +imaginal>
-       action "s"
-       mc1 =c1
-       mc2 =c2) ;; DOES THIS GIVE A LENIANCY TO STAY? 
-       ;; WE ARE CURRENTLY STAYING WHEN WE DON'T REMEMBER ANYTHING... SHOULD THERE BE ANOTHER P FOR RANDOM HIT?
+       action "h"
+       c1 =c1
+       c2 =c2
+       tot =my
+       ) 
   
   ;; if we do have a fact retrieved about the current card,
   ;; we execute that strategy
@@ -89,6 +106,7 @@
        state retrieving
        mc1 =c1
        mc2 =c2
+       MTOT =MY
      =retrieval>
        isa learned-info
        action =act
@@ -102,25 +120,30 @@
        key =act
      +imaginal>
       action =act
-      MC1 =c1
-      MC2 =c2
+      C1 =c1
+      C2 =c2
+      TOT =MY
      @retrieval>)
   
-  ;; we encode that we should hit when seeing this first card 
+  ;; On a win, we save our action 'h' with the dealt cards and total
   (p my-results-should-hit
      =goal>
        isa game-state
        state results
-       mresult =outcome
-       MC1 =c
+       mresult win
+       MC1 =c1
+       MC2 =c2
+       mtot =my ;; DO WE ALSO CHECK OPPONENTS CARDS HERE? IF WE WANT TO LOOK AT THEIR TOTAL, WE'D HAVE TO SAVE OUR GAMES DIFFERNTLY
      ?imaginal>
        state free
     ==>
-     !output! (I =outcome)
+     !output! (I WIN)
      =goal>
-       state opp-results
+       state results
      +imaginal>
-       MC1 =c 
+       C1 =c1
+       C2 =c2
+       tot =my
        action "h")
        
   ;; hitting is a highly preferred action with a utility of 10
@@ -131,66 +154,72 @@
   (p opp-results-should-hit
      =goal>
        isa game-state
-       state opp-results
+       state results
        oresult win
        oC1 =c1
        oc2 =c2
+      -oc3 nil ;; the opponent hit
+       otot =tot
      ?imaginal>
        state free
     ==>
-     =goal>
-       state nil
-     +imaginal>
-       oc1 =C1
-       oc2 =c2 
+     =goal> ;; IS THIS =GOAL> OPTIONAL?
+       state results
+     +imaginal> ;; we save the opponents actions if they win
+       c1 =C1
+       c2 =c2 
+       tot =tot
        action "h")
 
-  ;; we encode that we should stay when seeing this first card 
+  ;; when winning, we encode our action with the cards into the dm via imaginal buffer clearing
   (p my-results-should-stay
      =goal>
        isa game-state
        state results
-       mresult =outcome
+       mresult win
        MC1 =c1
        MC2 =c2
        MC3 nil ;;here we make sure that we stayed - then there should not be a c3 drawn
+       mtot =tot
      ?imaginal>
        state free
     ==>
-     !output! (I =outcome)
+     !output! (I WIN)
      =goal>
        state nil
      +imaginal>
-       MC1 =C1
-       MC2 =c2
+       c1 =C1
+       c2 =c2
+       tot =tot
        action "s") 
 
-  ;; we encode that, when seeing the opponents first card, we should stay too 
+  ;; we encode the opponents actions as our own
+  ;; this way we get twice the learned info per game
   (p opp-results-should-stay
      =goal>
        isa game-state
        state results
        oresult win
-       MC1 =c1
-       mc2 =c2
+       oC1 =c1
+       oc2 =c2
+       oc3 nil ;; again we ensure the player stayed by c3
+       otot =tot
      ?imaginal>
        state free
     ==>
      =goal>
-       state nil
+       state results
      +imaginal>
-       MC1 =c1
-       mc2 =c2
+       C1 =c1
+       c2 =c2
+       tot =tot
        action "s") 
   
   ;; clearing the imaginal chunk to send the info into the dm
   (p clear-new-imaginal-chunk
-     ?imaginal>l
+     ?imaginal>
        state free
        buffer full
      ==>
      -imaginal>)
   )
-
-;;WHAT ABOUT A PRODUCTION THAT REPEATS THE CONCEPTS LEARNED UP TILL NOW
-;;A PERSON LERANING BLACKJACK WOULD CONTINUESLY REVIEW WHAT THEYVE LEARNED
