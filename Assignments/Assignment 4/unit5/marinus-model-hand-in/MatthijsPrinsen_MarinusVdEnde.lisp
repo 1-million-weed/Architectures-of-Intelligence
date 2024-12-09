@@ -1,12 +1,5 @@
 ;; Matthijs Prinsen & Marinus v/d Ende
 
-;; 2. encode the oponents cards as well
-
-;; ADD COMPOUND PRODUCTION THING 
-;; NEED TO KNOW WHETHER THIS IS A FUNCTION YOU CAN TURN ON OR
-;;   IF YOU NEED TO DO THIS YOURSELF.
-;; I THINK WE NEED TO DO THIS OURSELVES
-
 (clear-all)
 
 (define-model 1-hit-model
@@ -34,7 +27,6 @@
 
   ;; Declare the slots used for the goal buffer since it is not set in the
   ;; model defintion or by the productions.
-  ;; See the experiment code text for more details.
   (declare-buffer-usage goal game-state :all)
 
   ;; Create chunks for the items used in the slots for the game
@@ -61,34 +53,34 @@
   )
 
   ;; if there is no previous action we hit
-  ;; DESIGN CHOICE: here we want to hit a lot early, 
+  ;; DESIGN CHOICE: we want to hit a lot early, 
   ;; which loses a few games at the start, but provides more
   ;; info for later games.
   (p cant-remember-game
     =goal>
-      isa     game-state
-      state   retrieving
-      mstart  =mystart
+      isa       game-state
+      state     retrieving
+      mstart    =mystart
     ?retrieval>
-      buffer  failure
+      buffer    failure   ;; If we failed to find a fact
     ?manual>
-      state   free
+      state     free
     ==>
     =goal>
-      state   nil
+      state     nil       ;; finished for this round
     +manual>
-      cmd     press-key
-      key     "h"
+      cmd       press-key
+      key       "h"
     ) 
 
-  ;; if we do have a fact retrieved about the current card,
+  ;; if we do have a fact retrieved about the current hand total,
   ;; we execute that strategy
   (p remember-game
     =goal>
       isa       game-state
       state     retrieving
     =retrieval>
-      isa       learned-info
+      isa       learned-info    ;; we matched a previous fact
       action    =act
     ?manual>
       state     free
@@ -97,7 +89,7 @@
       state     nil
     +manual>
       cmd       press-key
-      key       =act
+      key       =act            ;; perform the previous fact's action
     +imaginal>
       action    =act
     @retrieval> ;; WHAT IS THE @?
@@ -112,24 +104,21 @@
     ;;   The chunk in the buffer is NOT sent to declarive memory and instead
     ;;   is FORGOTTEN as if never there.
     ;; NOTE: Used here to prevent strengthening the chunk more in the DM
-    ;; WHY? WE DONT NEED TO RESTRENGTHEN THAT CHUNK AFTER RECALLING IT. 
-    ;; DONT KNOW FOR SURE IF ITS THE RIGHT MOVE HERE.
+    ;; WHY? WE DONT NEED TO RESTRENGTHEN THAT CHUNK AFTER RECALLING IT.
 
-  ;; WE CAN ADD MORE MODULES TO ADD THE OPONENTS CARDS INTO A BUFFER TO LATER
-  ;; SAVE THEIR HAND RESULTS AS WELL.
-
-;;-------------------------------------------------------------
+;;------------------------------------------------------------------------
 ;; UP TILL HERE WE HAVE 10 SECONDS TO THINK AND ACT
-;;-------------------------------------------------------------
+;;------------------------------------------------------------------------
 
-  ;; On a win, we save our action 'h' with the dealt cards and total
+  ;; On a win where we hit, 
+  ;; we save our action 'h' with the total
   (p results-hit-win
     =goal>
       isa       game-state
       state     results
       mresult   win
-      mstart    =mystart
-    - mc3       nil   ;; third card slot is full ~ hit
+      mstart    =mystart  
+    - mc3       nil         ;; third card slot is full ~ hit
     ?imaginal>
       state     free
     ==>
@@ -138,11 +127,12 @@
       state     nil
     +imaginal>
       isa       learned-info
-      mstart    =mystart ;; remember that we want to hit at this total.
+      mstart    =mystart    ;; remember that we want to hit at this total.
       action    "h"
     )
   
-  ;; if we hit and win, we need to encode that number as well.
+  ;; if we stay and win, 
+  ;; we need to encode that number as well.
   (p resutls-stay-win
     =goal>
       isa       game-state
@@ -160,8 +150,8 @@
       action    "s"
   )
 
-  ;; on a bust we learn to stay at our total. 
-  ;; We can only bust if we hit.
+  ;; if we hit and bust, (we can only hit and bust)
+  ;; we want to learn to stay at our start total
   (p results-stay-bust
     =goal>
       isa       game-state
@@ -180,15 +170,15 @@
       action    "s"
     )
 
-  ;; we want to save what the opponent did when they stayed and won. 
+  ;; If the oponent stays and wins,
   ;; we can do some quick maths to learn that.
   (p results-opponent-stay-won
     =goal>
-      isa       game-state ;; temporarily out
+      isa       game-state
       state     results
       oresult   win
-      otot      =ototal
-      oc3       nil
+      otot      =ototal   ;; sarting total = end total (stayed)
+      oc3       nil       ;; if this is empty they stayed
     ?imaginal>
       state     free
     ==>
@@ -196,11 +186,15 @@
     +imaginal>
       isa       learned-info
       mstart    =ototal
-      action    "s" ;; we want to say in the case
+      action    "s"       ;; we want to stay in this case
   )
+  ;; little side note i realised while reading the comments one 
+  ;; last time before handing in. Here above we dont clear the goal 
+  ;; buffer. therefore, theoretically, it should go into a loop. 
+  ;; i dont see that happening in the results... so i left it.
 
-  ;; if we lost, and our cards were lower than our oponents we 
-  ;; might want to hit. this could be a lower utility production
+  ;; if we lost, and our cards were lower than our oponents, 
+  ;; we might want to hit. this could be a lower utility production
   (p results-lost
     =goal>
       isa       game-state
@@ -229,10 +223,3 @@
       -imaginal>
     )
 )
-
-
-;; these are coming down here for me to clarify what i want to do. 
-;; when we have our first cards, we want to think back to previous 
-;; iterations of those cards that we had. But in my head what ill do 
-;; is use my total to decide if i want to hit. So to learn, what i would 
-;; like to encode is if i hit and won i should hit  
