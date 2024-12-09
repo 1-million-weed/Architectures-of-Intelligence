@@ -1,14 +1,6 @@
 ;; Matthijs Prinsen & Marinus v/d Ende
-;; Todo:
 
-;; 1. use spreading activation to allow for near misses
-;;    I will need to play around with this parameter later
-;; 2. maybe create a subcvolise module to rehearse the 
-;;    known chunks. This would use the 10 seconds more 
-;;    efficiently
-
-;; WE SHOULD INCLUDE BOTH CARDS AND RESULTS FOR BETTER  
-;;  PARTIAL MATCHING
+;; 2. encode the oponents cards as well
 
 ;; ADD COMPOUND PRODUCTION THING 
 ;; NEED TO KNOW WHETHER THIS IS A FUNCTION YOU CAN TURN ON OR
@@ -53,7 +45,7 @@
   (install-device '("motor" "keyboard"))
 
   ;; at the start of the game, 
-  ;; we try to see if we have a strategy for the first card dealt 
+  ;; we try to see if we have an action for the first card dealt 
   (p start
     =goal>
       isa     game-state
@@ -65,14 +57,13 @@
     +retrieval>
       isa     learned-info
       mstart  =mystart
-    - action  nil ;; we want to find a previous action, 
-                  ;;  the action slot should not be empty
-    )
+    - action  nil     ;; action slot must be filled.
+  )
 
   ;; if there is no previous action we hit
   ;; DESIGN CHOICE: here we want to hit a lot early, 
-  ;; which probably loses a few games at the start, but provides more
-  ;; info for later games
+  ;; which loses a few games at the start, but provides more
+  ;; info for later games.
   (p cant-remember-game
     =goal>
       isa     game-state
@@ -88,15 +79,7 @@
     +manual>
       cmd     press-key
       key     "h"
-    +imaginal>
-      mstart  =mystart
-      action  "h"
     ) 
-
-;;---------------------------------------------------------------
-;; Could also add a little feature where we see if our oponents card
-;; could be higher than ours...
-;;---------------------------------------------------------------
 
   ;; if we do have a fact retrieved about the current card,
   ;; we execute that strategy
@@ -111,7 +94,7 @@
       state     free
     ==>
     =goal>
-      state     nil ;; for now we wait for the 10 seconds to end.
+      state     nil
     +manual>
       cmd       press-key
       key       =act
@@ -132,12 +115,13 @@
     ;; WHY? WE DONT NEED TO RESTRENGTHEN THAT CHUNK AFTER RECALLING IT. 
     ;; DONT KNOW FOR SURE IF ITS THE RIGHT MOVE HERE.
 
-;; WE CAN ADD MORE MODULES TO ADD THE OPONENTS CARDS INTO A BUFFER TO LATER
-;; SAVE THEIR HAND RESULTS AS WELL.
+  ;; WE CAN ADD MORE MODULES TO ADD THE OPONENTS CARDS INTO A BUFFER TO LATER
+  ;; SAVE THEIR HAND RESULTS AS WELL.
 
 ;;-------------------------------------------------------------
 ;; UP TILL HERE WE HAVE 10 SECONDS TO THINK AND ACT
 ;;-------------------------------------------------------------
+
   ;; On a win, we save our action 'h' with the dealt cards and total
   (p results-hit-win
     =goal>
@@ -145,7 +129,7 @@
       state     results
       mresult   win
       mstart    =mystart
-      - mtot    =mystart ;; start does not equal total ~ hit
+    - mc3       nil   ;; third card slot is full ~ hit
     ?imaginal>
       state     free
     ==>
@@ -154,12 +138,12 @@
       state     nil
     +imaginal>
       isa       learned-info
-      mstart    =mystart
+      mstart    =mystart ;; remember that we want to hit at this total.
       action    "h"
     )
   
   ;; if we hit and win, we need to encode that number as well.
-  (p resutls-no-hit-win
+  (p resutls-stay-win
     =goal>
       isa       game-state
       state     results
@@ -172,7 +156,7 @@
     !output!    (I win)
     =goal>
       state     nil
-      mstart    =mystart
+      mstart    =mystart ;; want to remmber to stay at this total.
       action    "s"
   )
 
@@ -192,31 +176,52 @@
       state     nil
     +imaginal>
       isa       learned-info
-      mstart    =mystart
+      mstart    =mystart  ;; want to remember to stay at this total.
       action    "s"
     )
 
-;; if we lost, and our cards were lower than our oponents
-  (p results-hit-lost
+  ;; we want to save what the opponent did when they stayed and won. 
+  ;; we can do some quick maths to learn that.
+  (p results-opponent-stay-won
     =goal>
-      isa       game-state
+      isa       game-state ;; temporarily out
       state     results
-      mresult   lost
-      mtot      =mytot
-    < otot      =mytot ;; lower than the oponents
+      oresult   win
+      otot      =ototal
+      oc3       nil
     ?imaginal>
       state     free
     ==>
-    !output!    (I lost)
+    =goal>  ;; we want to keep the goal buffer so result-lost can fire
+    +imaginal>
+      isa       learned-info
+      mstart    =ototal
+      action    "s" ;; we want to say in the case
+  )
+
+;; Right now we need to stay more so we set this productions utility higher
+;;(spp results-opponent-stay-won :u 10)
+
+  ;; if we lost, and our cards were lower than our oponents we 
+  ;; might want to hit. this could be a lower utility production
+  (p results-lost
+    =goal>
+      isa       game-state
+      state     results
+      mresult   lose
+      mtot      =mytot
+    > otot      =mytot ;; otot is bigger than mytot
+    ?imaginal>
+      state     free
+    ==>
+    !output!    (I lose)
     =goal>
       state     nil
     +imaginal>  
       isa       learned-info
       mstart    =mytot
-      action    "h"
+      action    "h" ;; if we lost because we were too low, we hit.
   )
-
-
 
   ;; clearing the imaginal chunk to send the chunk into the dm
   (p clear-new-imaginal-chunk
