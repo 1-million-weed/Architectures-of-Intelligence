@@ -27,7 +27,7 @@
   (sgp :v nil :ans .2 :mp 10.0 :rt -60)
   ;; :v   - verbose
   ;; :ans - Activation Noise Instantanuous
-  ;; :mp  - Partial Mapping
+  ;; :mp  - Partial Matching
   ;; :rt  - Retrieval Threshold
 
   ;; This type holds all the game info 
@@ -38,7 +38,7 @@
   ;; for your model's learning strategy
   ;; DESIGN CHOICE: we want to only work with the total and decide on that
   ;; if we should hit or stay.
-  (chunk-type learned-info tot action)
+  (chunk-type learned-info mstart action)
 
   ;; Declare the slots used for the goal buffer since it is not set in the
   ;; model defintion or by the productions.
@@ -58,13 +58,13 @@
     =goal>
       isa     game-state
       state   start
-      mtot    =my 
+      mstart  =mystart
     ==>
     =goal>
       state   retrieving
     +retrieval>
       isa     learned-info
-      tot     =my
+      mstart  =mystart
     - action  nil ;; we want to find a previous action, 
                   ;;  the action slot should not be empty
     )
@@ -77,7 +77,7 @@
     =goal>
       isa     game-state
       state   retrieving
-      mtot    =my
+      mstart  =mystart
     ?retrieval>
       buffer  failure
     ?manual>
@@ -89,31 +89,34 @@
       cmd     press-key
       key     "h"
     +imaginal>
-      tot     =my
+      mstart  =mystart
       action  "h"
     ) 
+
+;;---------------------------------------------------------------
+;; Could also add a little feature where we see if our oponents card
+;; could be higher than ours...
+;;---------------------------------------------------------------
 
   ;; if we do have a fact retrieved about the current card,
   ;; we execute that strategy
   (p remember-game
     =goal>
-      isa     game-state
-      state   retrieving
-      mtot    =my
+      isa       game-state
+      state     retrieving
     =retrieval>
-      isa     learned-info
-      action  =act
+      isa       learned-info
+      action    =act
     ?manual>
-      state   free
+      state     free
     ==>
     =goal>
-      state   nil ;; for now we wait for the 10 seconds to end.
+      state     nil ;; for now we wait for the 10 seconds to end.
     +manual>
-      cmd     press-key
-      key     =act
+      cmd       press-key
+      key       =act
     +imaginal>
-      tot     =my
-      action  =act
+      action    =act
     @retrieval> ;; WHAT IS THE @?
     ) 
     ;; The '@' is called the overwrite function (like in java @overwite)
@@ -133,47 +136,87 @@
 ;; SAVE THEIR HAND RESULTS AS WELL.
 
 ;;-------------------------------------------------------------
-;; MATTHIJS I AM NOT DONE YET. I WILL LET YOU KNOW ONCE I AM
+;; UP TILL HERE WE HAVE 10 SECONDS TO THINK AND ACT
 ;;-------------------------------------------------------------
   ;; On a win, we save our action 'h' with the dealt cards and total
-  (p results-should-hit
+  (p results-hit-win
     =goal>
-      isa     game-state
-      state   results
-      mresult win
-      mtot    =my
+      isa       game-state
+      state     results
+      mresult   win
+      mstart    =mystart
+      - mtot    =mystart ;; start does not equal total ~ hit
     ?imaginal>
-      state   free
+      state     free
     ==>
-    !output!  (I =outcome)
+    !output!    (I win)
     =goal>
-      state   nil
-      mresult =outcome
+      state     nil
     +imaginal>
-      isa     learned-info
-      tot     =my
-      action  "h"
+      isa       learned-info
+      mstart    =mystart
+      action    "h"
+    )
+  
+  ;; if we hit and win, we need to encode that number as well.
+  (p resutls-no-hit-win
+    =goal>
+      isa       game-state
+      state     results
+      mresult   win
+      mstart    =mystart
+      mtot      =mystart ;; start equals total ~ stay
+    ?imaginal>
+      state     free
+    ==>
+    !output!    (I win)
+    =goal>
+      state     nil
+      mstart    =mystart
+      action    "s"
+  )
+
+  ;; on a bust we learn to stay at our total. 
+  ;; We can only bust if we hit.
+  (p results-stay-bust
+    =goal>
+      isa       game-state
+      state     results
+      mresult   bust
+      mstart    =mystart
+    ?imaginal>
+      state     free
+    ==>
+    !output!    (I bust)
+    =goal>
+      state     nil
+    +imaginal>
+      isa       learned-info
+      mstart    =mystart
+      action    "s"
     )
 
-  ;; on a loss or bust we remember that we should stay on that total.
-  (p results-should-stay
+;; if we lost, and our cards were lower than our oponents
+  (p results-hit-lost
     =goal>
-      isa     game-state
-      state   results
-      mresult =outcome ;; this can be either 'lost' or 'bust'
-      tot     =mytot
+      isa       game-state
+      state     results
+      mresult   lost
+      mtot      =mytot
+    < otot      =mytot ;; lower than the oponents
     ?imaginal>
-      state   free
+      state     free
     ==>
-    !output!  (I =outcome) ;; I 'lost'/'bust'
+    !output!    (I lost)
     =goal>
-      state   nil
-      mresult =outcome
-    +imaginal>
-      isa     learned-info
-      tot     =mytot
-      action  "s"
-    )
+      state     nil
+    +imaginal>  
+      isa       learned-info
+      mstart    =mytot
+      action    "h"
+  )
+
+
 
   ;; clearing the imaginal chunk to send the chunk into the dm
   (p clear-new-imaginal-chunk
@@ -184,3 +227,10 @@
       -imaginal>
     )
 )
+
+
+;; these are coming down here for me to clarify what i want to do. 
+;; when we have our first cards, we want to think back to previous 
+;; iterations of those cards that we had. But in my head what ill do 
+;; is use my total to decide if i want to hit. So to learn, what i would 
+;; like to encode is if i hit and won i should hit  
