@@ -1,0 +1,33 @@
+{
+	"nodes":[
+		{"id":"d0b04c86751f4662","type":"file","file":"sine function.md","x":-151,"y":600,"width":400,"height":340},
+		{"id":"b15685b556f669f2","type":"text","text":"STIMULUS","x":-220,"y":-160,"width":137,"height":60},
+		{"id":"b42c1a7e8c82caf1","type":"text","text":"A","x":80,"y":-160,"width":60,"height":60},
+		{"id":"6571b0a313cd8532","type":"text","text":"B","x":300,"y":-160,"width":60,"height":60},
+		{"id":"5c975f79b8f728d7","type":"text","text":"C","x":620,"y":-160,"width":60,"height":60},
+		{"id":"3080164b87f13e33","type":"text","text":"recurrent connection","x":740,"y":-280,"width":161,"height":60},
+		{"id":"f06f917ea543527b","type":"text","text":"STIMULUS","x":-220,"y":380,"width":137,"height":60},
+		{"id":"167be894bba483d0","type":"text","text":"A","x":-60,"y":200,"width":60,"height":60},
+		{"id":"2b2e39959b18a79f","type":"text","text":"B","x":110,"y":320,"width":60,"height":60},
+		{"id":"997c232074e0e051","type":"text","text":"recurrent connection","x":540,"y":200,"width":161,"height":60},
+		{"id":"e58db949c85cba04","type":"text","text":"C","x":421,"y":320,"width":60,"height":60},
+		{"id":"e6ecc907e5d9da2d","type":"text","text":"D - 2 dimensional","x":356,"y":540,"width":189,"height":60},
+		{"id":"c23dbc62d9639cf9","type":"text","text":"YASSS QUEEN","x":-840,"y":120,"width":163,"height":60,"color":"4"}
+	],
+	"edges":[
+		{"id":"124c9636e513ab8a","fromNode":"b15685b556f669f2","fromSide":"right","toNode":"b42c1a7e8c82caf1","toSide":"left","label":"NaN"},
+		{"id":"6554058351f0f7b2","fromNode":"b42c1a7e8c82caf1","fromSide":"right","toNode":"6571b0a313cd8532","toSide":"left","label":"a * a - .5"},
+		{"id":"fc60df9c9eac1cd0","fromNode":"6571b0a313cd8532","fromSide":"right","toNode":"5c975f79b8f728d7","toSide":"left","label":"transform=.5"},
+		{"id":"219b6a2b185230af","fromNode":"5c975f79b8f728d7","fromSide":"right","toNode":"3080164b87f13e33","toSide":"bottom"},
+		{"id":"9912949a85981065","fromNode":"3080164b87f13e33","fromSide":"left","toNode":"5c975f79b8f728d7","toSide":"top"},
+		{"id":"a2f6fc1ddad4ec7b","fromNode":"f06f917ea543527b","fromSide":"top","toNode":"167be894bba483d0","toSide":"left","label":"NaN"},
+		{"id":"c361d803e57160d1","fromNode":"167be894bba483d0","fromSide":"right","toNode":"2b2e39959b18a79f","toSide":"top","label":"a * a - .5"},
+		{"id":"bf4dad65468e0bb1","fromNode":"2b2e39959b18a79f","fromSide":"right","toNode":"e58db949c85cba04","toSide":"left","label":"transform=.5"},
+		{"id":"59d8903d29874f4e","fromNode":"e58db949c85cba04","fromSide":"right","toNode":"997c232074e0e051","toSide":"bottom"},
+		{"id":"fb2706f2b20dcf2d","fromNode":"997c232074e0e051","fromSide":"left","toNode":"e58db949c85cba04","toSide":"top"},
+		{"id":"d727a4684bb2ea9c","fromNode":"c23dbc62d9639cf9","fromSide":"right","toNode":"b15685b556f669f2","toSide":"left","label":"THIS FIRST"},
+		{"id":"f46af773566362ce","fromNode":"c23dbc62d9639cf9","fromSide":"right","toNode":"f06f917ea543527b","toSide":"left","label":"THEN THIS"},
+		{"id":"740169a14ea4464a","fromNode":"f06f917ea543527b","fromSide":"bottom","toNode":"e6ecc907e5d9da2d","toSide":"left","label":"sine function"},
+		{"id":"e8f1d6b6a0710d29","fromNode":"e58db949c85cba04","fromSide":"bottom","toNode":"e6ecc907e5d9da2d","toSide":"top"}
+	]
+}
