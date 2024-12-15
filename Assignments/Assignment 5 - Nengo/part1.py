@@ -2,7 +2,7 @@
 # Marinus v/d Ende (s5460484)
 
 import nengo
-import numpy as np #imported numpy for the sine function
+import numpy as np # imported numpy for the sine function
 
 model = nengo.Network()
 with model:
