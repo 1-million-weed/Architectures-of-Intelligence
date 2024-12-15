@@ -1,4 +1,4 @@
-# Matthijs Prinsen (s)
+# Matthijs Prinsen (S4003365)
 # Marinus v/d Ende (s5460484)
 
 import nengo
@@ -9,20 +9,19 @@ model = nengo.Network()
 with model:
     # The sine function
     def sin_func(t):
-        return np.sin(1*t)
+        return np.sin(2*t)
 
-    # Stimulus - adjustable with slider
+    # Stimulus - set to 0 will give a 0 stimulus
     stim = nengo.Node(sin_func)
+
     # Neuron ensamble A
     a = nengo.Ensemble(n_neurons=100, dimensions=1)
-    # stimulus to esamble A connection
+    # stimulus to esamble A
     nengo.Connection(stim, a)
     
     # Function for squaring an input
     def square_center(x):
         return (x * x) - .5
-    
-    # oh no i changed something
     
     # Neuron ensamble B
     b = nengo.Ensemble(n_neurons=100, dimensions=1)
@@ -36,14 +35,12 @@ with model:
     # Simmple memory for the C output value 
     nengo.Connection(c, c, synapse=0.1)
     
-    ### PART 1 DONE ###
-    
-    # Neuron ensamble D with 2 dimensions
-    d = nengo.Ensemble(n_neurons=100, dimensions=2, radius=1)
-    # sine of stimulus to ensamble D
-    nengo.Connection(stim, d, function=sin_func)
+    # Neuron ensamble D (2 dimensions)
+    d = nengo.Ensemble(n_neurons=100, dimensions=2)
+    # stimulus to ensamble D
+    nengo.Connection(stim, d[0], function=sin_func)
     # ensamble C to ensamble D
-    nengo.Connection(c, d)
+    nengo.Connection(c, d[1])
     
     plt.figure() 
     

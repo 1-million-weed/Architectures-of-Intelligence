@@ -1,5 +1,5 @@
 """
-@authors: Matthijs Prinsen (s) and Marinus v/d Ende (s5460484)
+@authors: Matthijs Prinsen (S4003365) and Marinus v/d Ende (s5460484)
 Based on: work by Jelmer Borst (j.p.borst@rug.nl) and
 https://www.nengo.ai/nengo/examples/advanced/nef-algorithm.html
 
@@ -32,6 +32,7 @@ def input(t):
 def function_AB(x):
     """The function to compute between A and B."""
     return x * x - .5
+
 
 def function_BC(x):
     """The function to compute between B and C."""
@@ -140,6 +141,7 @@ def compute_decoder(encoder, gain, bias, function=lambda x: x):
     Ginv = np.linalg.pinv(Gamma)
     decoder = np.dot(Ginv, Upsilon) / dt
     return decoder
+
 
 ### 2. Generating the ensembles and connections ###
 ###################################################
@@ -260,6 +262,8 @@ while t < 10.0:
 
     ## Ensemble C
 
+    # Calculate input for C
+
     # decay all of the previous inputs (implementing the post-synaptic filter)
     for j in range(N_C):
         input_C[j] *= 1.0 - pstc_scale
@@ -307,23 +311,28 @@ while t < 10.0:
     t += dt
 
 
-
 ### 4. Plot the results ###
 ###########################
 
-
 # Check tuning curves for one population
 x, A = compute_tuning_curves(encoder_A, gain_A, bias_A)
-
-# Check tuning curves for population C
-x, B = compute_tuning_curves(encoder_C, gain_C, bias_C)
 
 plt.figure()
 plt.plot(x, A)
 plt.title("Tuning curves for population A")
 
+# Check tuning curves for population B
+x, B = compute_tuning_curves(encoder_B, gain_B, bias_B)
+
 plt.figure()
 plt.plot(x, B)
+plt.title("Tuning curves for population B")
+
+# Check tuning curves for population C
+x, C = compute_tuning_curves(encoder_C, gain_C, bias_C)
+
+plt.figure()
+plt.plot(x, C)
 plt.title("Tuning curves for population C")
 
 
@@ -338,5 +347,13 @@ plt.plot(times, ideal_C, label="ideal_C")
 plt.plot(times, outputs_C, label="C")
 plt.title("Simulation results")
 plt.legend()
+
+# Simulation results for population C
+plt.figure()
+plt.plot(times, ideal_C, label="ideal_C")
+plt.plot(times, outputs_C, label="C")
+plt.title("Simulation results for population C")
+plt.legend()
+
 plt.show()
 
