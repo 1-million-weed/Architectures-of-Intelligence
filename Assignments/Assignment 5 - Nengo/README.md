@@ -35,9 +35,11 @@ $ nengo --browser chrome
 # Part 1 
 
 Have a look at the documentation draft here: [AoI ass 5](AoI_ass_5.pdf)
+
 The code is here: [default](default.py)
 
 # Part 2 
 
 TODO: Documentation still coming
+
 The code is here: [part2](part2.py)
