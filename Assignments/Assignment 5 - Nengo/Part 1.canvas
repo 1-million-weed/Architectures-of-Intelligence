@@ -27,7 +27,7 @@
 		{"id":"f46af773566362ce","fromNode":"c23dbc62d9639cf9","fromSide":"right","toNode":"f06f917ea543527b","toSide":"left","label":"THEN THIS"},
 		{"id":"740169a14ea4464a","fromNode":"f06f917ea543527b","fromSide":"bottom","toNode":"e6ecc907e5d9da2d","toSide":"left","label":"sine function"},
 		{"id":"e8f1d6b6a0710d29","fromNode":"e58db949c85cba04","fromSide":"bottom","toNode":"e6ecc907e5d9da2d","toSide":"top"},
-		{"id":"908140b59d4700c0","fromNode":"f06f917ea543527b","fromSide":"top","toNode":"167be894bba483d0","toSide":"left"},
-		{"id":"06d756b6c8d8fee2","fromNode":"b15685b556f669f2","fromSide":"right","toNode":"b42c1a7e8c82caf1","toSide":"left"}
+		{"id":"c25fdd81a1271b73","fromNode":"f06f917ea543527b","fromSide":"top","toNode":"167be894bba483d0","toSide":"left"},
+		{"id":"2cab8a66d0268837","fromNode":"b15685b556f669f2","fromSide":"right","toNode":"b42c1a7e8c82caf1","toSide":"left"}
 	]
 }
