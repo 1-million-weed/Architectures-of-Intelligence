@@ -12,12 +12,6 @@ dV = dt * (input[i] - v[i]) / t_rc  # the LIF voltage change equation
 v[i] += dV
 ```
 ![[B3.png]]
-- $V(t)$ is `v`
-- $J(x)$ is the `input`
-- $\tau_{RC}$ is the membrane RC time constant, in this case its $dt=0.02$   
-- $R$ is disregarded in this case
-- Note that there is a minus infront of the equation but not the `python` function. 
-	- hence the reversed subtraction
 
 The rest of the if functions it that function are self explanatory.
 
@@ -32,4 +26,3 @@ The rest of the if functions it that function are self explanatory.
 ```
 The code above likely links back to the following formula in the book [HtBaB](Resources/How_to_Build_a_Brain.pdf) page 396
 ![[Pasted image 20241215183811.png]]
-
