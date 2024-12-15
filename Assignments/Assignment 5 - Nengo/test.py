@@ -38,8 +38,8 @@ with model:
     
     ### PART 1 DONE ###
     
-    # Neuron ensamble D
-    d = nengo.Ensemble(n_neurons=100, dimensions=1, radius=1)
+    # Neuron ensamble D with 2 dimensions
+    d = nengo.Ensemble(n_neurons=100, dimensions=2, radius=1)
     # sine of stimulus to ensamble D
     nengo.Connection(stim, d, function=sin_func)
     # ensamble C to ensamble D
