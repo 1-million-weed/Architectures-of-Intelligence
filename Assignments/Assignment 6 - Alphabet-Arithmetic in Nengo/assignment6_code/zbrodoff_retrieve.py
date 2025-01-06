@@ -152,29 +152,44 @@ with model:
     model.comparison = compare_acc_zbrodoff.CompareAccumulator(vocab_compare = vocab_concepts,status_scale = .6,status_feedback = .6)
 
     #Motor
-    # ... add a motor state ...
+    model.motor = spa.State(Dlow, vocab=vocab_motor, feedback=1)
     
-    #Basal Ganglia & Thalamus
+    # Basal Ganglia & Thalamus
     actions = spa.Actions(
-        
-        #encode and retrieve
-        a_retrieve =  'dot(goal,START) - declarative_status -.2 --> goal=START+RETRIEVE, declarative=ITEM1*arg1 + ITEM2*arg2', 
-        b_answer_retrieved =   'dot(goal,RETRIEVE) + declarative_status - .3 --> goal=(.8*RETRIEVE)+COMPARE, answer=4*~RESULT*declarative',
-         
-        #compare
-        v_compare =           'dot(goal,COMPARE) --> goal=(.8*COMPARE)+RESPOND, comparison_cleanA=2*target, comparison_cleanB=4*answer',
-        
-        #respond
-        
-        ### ... add two actions here ... ###
-       
-       
-        #finished
-        #y_done =              'dot(goal,DONE) + dot(motor,YES+NO) - .5 --> goal=2*DONE',
+
+        # encode and retrieve
+        a_retrieve = 'dot(goal,START) - declarative_status -.2 --> goal=START+RETRIEVE, declarative=ITEM1*arg1 + ITEM2*arg2', 
+        # LHS: Checks if the current goal is 'START' and the declarative memory is not in the process of retrieving an answer (below .2).
+        # RHS: The goal is set to the 'RETRIEVE' and 'START' state, then we encode a new declarative memory by binding ITEM1 to arg1 and 
+        # ITEM2 to arg2. This sets the circular convolution of the arguments.
+
+        b_answer_retrieved = 'dot(goal,RETRIEVE) + declarative_status - .3 --> goal=(.8*RETRIEVE)+COMPARE, answer=4*~RESULT*declarative',
+        # LHS: Checks if the current goal is 'RETRIEVE' and the declarative memory is in the process of retrieving an answer (above .3).
+        # RHS: The goal state decays 'RETRIEVE' (.8*) and sets the new goal to 'COMPARE'. The answer is set to the circular convolution of the 
+        # 'RESULT' slot in the declarative memory. The '~' symbol is used to indicate that the 'RESULT' slot is inverted.
+
+        # compare
+        v_compare = 'dot(goal,COMPARE) --> goal=(.8*COMPARE)+RESPOND, comparison_cleanA=2*target, comparison_cleanB=4*answer',
+        # LHS: Checks if the current goal is 'COMPARE'.
+        # RHS: The goal state decays 'COMPARE' and sets the new goal to 'RESPOND'. The comparison_cleanA&B slots are set to the 
+        # target and answer values respectively. They are both scaled proportionally to be more suited for comparison.
+
+        # respond
+        w_yes = 'dot(goal,RESPOND) + comparison_status - .6 --> goal=DONE, motor=YES',
+        x_no = 'dot(goal,RESPOND) - comparison_status - .6 --> goal=DONE, motor=NO',
+        # LHS: Checks if the current goal is 'RESPOND'. The comparison_status is compared to a threshold of .5.
+        # RHS: We set the goal to 'DONE' and the motor state to 'YES' or 'NO'.
+        # We set a threshold of .5 to avoid noise and unexpected fluctuations in the comparison_status value.
+        # We noticed that the comparison_status value oscillates between positive and negative, hence the .5 threshold.
+        # Additionally, we set the motor network to have a feedback of 1 so it can maintain its state for longer.
+
+        # finished
+        y_done = 'dot(goal,DONE) + dot(motor,YES+NO) - .5 --> goal=2*DONE',
+        # If the goal is 'DONE' and the motor state of 'YES' or 'NO' is above .5, the goal state 'DONE' is reinforced.
     ) 
 
-    model.bg = spa.BasalGanglia(actions)
-    model.thalamus = spa.Thalamus(model.bg, synapse_channel = .04)
+model.bg = spa.BasalGanglia(actions)
+model.thalamus = spa.Thalamus(model.bg, synapse_channel = .04)
 
 print('\t' + str(sum(ens.n_neurons for ens in model.all_ensembles)) + ' neurons')
 
