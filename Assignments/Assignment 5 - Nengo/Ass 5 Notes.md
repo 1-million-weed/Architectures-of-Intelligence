@@ -3,6 +3,8 @@ tags:
   - Marinus
   - Assignments
 Date: 2024-12-15
+aliases:
+  - Nengo-Setup
 ---
 # Setting UP
 ## To create your environment, use
@@ -35,12 +37,13 @@ $ nengo --browser chrome
 
 # Part 1 
 
-Have a look at the documentation draft here: [AoI ass 5](AoI_ass_5.pdf)
+Final documentation: [[AoI_Assignment_5_part_1.pdf]]
+Draft documentation: [AoI ass 5](AoI_ass_5.pdf)
 
 The code is here: [part1](part1.py)
 
 # Part 2 
 
-TODO: Documentation still coming
+Final documentation: [[AoI_Assignment_5_part_2.pdf]]
 
 The code is here: [part2](part2.py)
