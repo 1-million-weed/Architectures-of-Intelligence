@@ -4,6 +4,8 @@ tags:
   - Marinus
 Created: 2025-01-04
 ---
+To setup your Nengo environment: [[Ass 5 Notes|Ass 5 Notes]]
+
 > Notes and thoughts about the steps for the assignment. [[Assignment6.pdf]]
 
 # Goal
