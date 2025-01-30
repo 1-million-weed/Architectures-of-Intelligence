@@ -72,3 +72,6 @@ $$pr_i=\frac{1}{1+e^{\frac{\tau -A_i}{s}}}$$
 	- Speed is now based on frequency, and not on amount of counting
 - read unit 4 in the reader
 - aight. im out. commit and ommit. yeet
+
+---
+| Previous: [[Lecture 4]] | Next: [[Lecture 6]] |

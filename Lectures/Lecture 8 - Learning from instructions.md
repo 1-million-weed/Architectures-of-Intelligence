@@ -102,3 +102,6 @@ I missed the first 10 minutes
 
 - i clocked out 
 - planning december trip
+
+---
+| Previous: [[Lecture 7 - Procedural Memory]] | Next: [[Lecture 9 -]] |

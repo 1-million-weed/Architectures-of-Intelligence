@@ -80,3 +80,6 @@ From the image below:
 - models need to fit human data.
 - make statements on the fit of the model with the human data
 - automatic parameter fitting needs to be cognitively plausible
+
+---
+| Previous: [[Lecture 3]] | Next: [[Lecture 5]] |

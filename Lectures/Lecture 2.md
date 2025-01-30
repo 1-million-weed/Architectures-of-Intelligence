@@ -73,3 +73,6 @@ phenomena like:
 2. Combine separate models in a cognitive architecture
 
 #_FirstPass start from slide 30/62
+
+---
+| Previous: [[Lecture 1]] | Next: [[Lecture 3]] |

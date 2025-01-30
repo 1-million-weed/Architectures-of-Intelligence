@@ -136,3 +136,5 @@ So why is there is adifference between regular and irregular verbs???
 
 # We winnnn Cakkkkeeeeee Yum
 
+---
+| Previous: [[Lecture 6]] | Next: [[Lecture 8 - Learning from instructions]] |

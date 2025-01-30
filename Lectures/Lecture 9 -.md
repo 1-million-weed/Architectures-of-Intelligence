@@ -64,3 +64,7 @@ continue on ipad. laptop dead
 ## store
 
 # How to build a brain
+
+
+---
+| Previous: [[Lecture 8 - Learning from instructions]] | Next: [[README]] |
